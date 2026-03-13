@@ -1,0 +1,2 @@
+-- database structure for little minds store
+-- tables will be added later

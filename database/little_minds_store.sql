@@ -65,3 +65,19 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+CREATE TABLE products (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100),
+  description TEXT,
+  price DECIMAL(10,2),
+  image VARCHAR(255)
+);
+
+INSERT INTO products (name, description, price, image) VALUES
+('Alphabet Toy', 'Educational alphabet toy for kids', 50.00, 'alphabet-toy.jpg'),
+('Blocks', 'Colorful building blocks', 30.00, 'blocks.jpg'),
+('Coloring Book', 'Fun coloring book', 20.00, 'coloring-book.jpeg'),
+('Numbers Toy', 'Learn numbers easily', 40.00, 'numbers-toy.jpg'),
+('Puzzle', 'Brain puzzle game', 35.00, 'puzzle.jpg'),
+('Story Book', 'Interesting kids story book', 25.00, 'storybook.jpg');

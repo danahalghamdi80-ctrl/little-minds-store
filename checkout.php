@@ -6,7 +6,6 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-include 'includes/header.php';
 include 'database/db.php';
 
 if (!isset($_SESSION['cart'])) {
@@ -39,37 +38,97 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_cart'])) {
             $product_id = (int) $product_id;
             $quantity = (int) $quantity;
 
-            if ($quantity <= 0) {
-                unset($_SESSION['cart'][$product_id]);
-            } else {
-                if (isset($_SESSION['cart'][$product_id])) {
+            if (!isset($_SESSION['cart'][$product_id])) {
+                continue;
+            }
+
+            $stock_query = "SELECT stock FROM products WHERE id = $product_id";
+            $stock_result = mysqli_query($conn, $stock_query);
+
+            if ($stock_result && mysqli_num_rows($stock_result) > 0) {
+                $product_data = mysqli_fetch_assoc($stock_result);
+                $available_stock = isset($product_data['stock']) ? (int)$product_data['stock'] : 0;
+
+                if ($quantity <= 0) {
+                    unset($_SESSION['cart'][$product_id]);
+                } elseif ($available_stock <= 0) {
+                    $message = "Product is out of stock.";
+                } elseif ($quantity > $available_stock) {
+                    $message = "Requested quantity exceeds available stock.";
+                } else {
                     $_SESSION['cart'][$product_id]['quantity'] = $quantity;
                 }
             }
         }
 
-        $message = "Cart updated successfully.";
+        if ($message === "") {
+            $message = "Cart updated successfully.";
+        }
     }
 }
 
 // Buy products
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['buy_now'])) {
     if (!empty($_SESSION['cart'])) {
-        setcookie("past_purchases", json_encode($_SESSION['cart']), time() + (86400 * 30), "/");
-        $_SESSION['cart'] = [];
-        $purchase_completed = true;
-        $message = "Purchase completed successfully.";
+        $can_buy = true;
+
+        foreach ($_SESSION['cart'] as $item) {
+            $product_id = (int)$item['id'];
+            $quantity = (int)$item['quantity'];
+
+            $stock_query = "SELECT stock FROM products WHERE id = $product_id";
+            $stock_result = mysqli_query($conn, $stock_query);
+
+            if (!$stock_result || mysqli_num_rows($stock_result) == 0) {
+                $can_buy = false;
+                $message = "Product not found.";
+                break;
+            }
+
+            $product_data = mysqli_fetch_assoc($stock_result);
+            $available_stock = isset($product_data['stock']) ? (int)$product_data['stock'] : 0;
+
+            if ($available_stock <= 0) {
+                $can_buy = false;
+                $message = "Product is out of stock.";
+                break;
+            }
+
+            if ($quantity > $available_stock) {
+                $can_buy = false;
+                $message = "Cannot complete purchase. Some items exceed available stock.";
+                break;
+            }
+        }
+
+        if ($can_buy) {
+            foreach ($_SESSION['cart'] as $item) {
+                $product_id = (int)$item['id'];
+                $quantity = (int)$item['quantity'];
+
+                $update_query = "UPDATE products SET stock = stock - $quantity WHERE id = $product_id";
+                mysqli_query($conn, $update_query);
+            }
+
+            setcookie("past_purchases", json_encode($_SESSION['cart']), time() + (86400 * 30), "/");
+
+            $_SESSION['cart'] = [];
+            $purchase_completed = true;
+            $message = "Purchase completed successfully.";
+        }
     } else {
         $message = "Your cart is empty.";
     }
 }
+
+include 'includes/header.php';
 ?>
 
 <section class="main-section">
     <h2 class="section-title">Checkout</h2>
 
     <?php if (!empty($message)) { ?>
-        <p><strong><?php echo $message; ?></strong></p>
+        <p><strong><?php echo htmlspecialchars($message); ?></strong></p>
     <?php } ?>
 
     <?php if ($purchase_completed) { ?>
@@ -98,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['buy_now'])) {
                             type="number"
                             id="qty_<?php echo $item['id']; ?>"
                             name="quantities[<?php echo $item['id']; ?>]"
-                            value="<?php echo $item['quantity']; ?>"
+                            value="<?php echo (int)$item['quantity']; ?>"
                             min="1"
                         >
 

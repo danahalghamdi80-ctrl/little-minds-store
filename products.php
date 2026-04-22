@@ -1,3 +1,9 @@
+<?php
+// Author: Jana Alqahtani
+// Task: Display all products retrieved from the database
+?>
+
+
 <?php include 'includes/header.php'; ?>
 <?php include 'database/db.php'; ?>
 

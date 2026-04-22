@@ -1,8 +1,20 @@
+
+/* 
+Author: Danah
+Task: Website styling (layout, buttons, forms, cart icon, responsive design)
+*/
+html, body{
+    height: 100%;
+}
+
 body{
     margin: 0;
     padding: 0;
-    background: #ffffff;
-    color: #000000;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #f8fbff;
+    color: #1f1f1f;
     font-family: "Trebuchet MS", Arial, sans-serif;
     line-height: 1.6;
 }
@@ -22,21 +34,39 @@ header{
     top: 0;
 }
 
-.logo{
+
+.logo,
+.logo:link,
+.logo:visited,
+.logo:hover,
+.logo:active{
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 10px;
+    text-decoration: none;
+    color: #1c2b39;
 }
 
 .logo-icon{
-    font-size: 28px;
+    font-size: 30px;
+    line-height: 1;
+}
+
+.logo:hover{
+    opacity: 0.60;
 }
 
 .store-name{
-    font-size: 26px;
-    font-weight: bold;
-    color: #000000;
-    letter-spacing: 1px;
+    font-size: 38px;
+    font-weight: 900;
+    color: #121b24;
+    letter-spacing: 0.6px;
+    line-height: 1;
+    transition: color 0.35s ease;
+}
+
+.logo:hover .store-name{
+    color: #5a9fe6;
 }
 
 nav{
@@ -45,37 +75,58 @@ nav{
     gap: 22px;
 }
 
-nav a{
+
+nav a,
+nav a:link,
+nav a:visited,
+nav a:hover,
+nav a:active{
     text-decoration: none;
-    color: #000000;
-    font-size: 16px;
-    font-weight: 600;
-    transition: 0.2s;
+}
+
+nav a{
+    color: #1f2d3a;
+    font-size: 17px;
+    font-weight: 700;
+    padding: 8px 4px;
+    border-radius: 6px;
+    transition: color 0.35s ease;
 }
 
 nav a:hover{
-    text-decoration: underline;
+    color: #5a9fe6;
 }
 
-.cart-link{
+.cart-link,
+.cart-link:link,
+.cart-link:visited,
+.cart-link:hover,
+.cart-link:active{
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     background: #ffffff;
-    padding: 8px 14px;
-    border-radius: 8px;
-    border: 1px solid #d9d9d9;
+    padding: 10px 16px;
+    border-radius: 12px;
+    border: 1px solid #dce7f1;
+    text-decoration: none;
+}
+
+.cart-link:hover{
+    background: #f5faff;
+    color: #6eaee8;
 }
 
 .cart-icon{
-    font-size: 18px;
+    font-size: 19px;
 }
 
 .main-section{
+    flex: 10;
     width: 90%;
     max-width: 1100px;
     margin: 0 auto;
-    padding: 48px 20px;
+    padding: 60px 20px 80px;
 }
 
 .hero{
@@ -83,17 +134,21 @@ nav a:hover{
     padding: 40px 20px 20px;
 }
 
+
 .hero h1{
-    margin-bottom: 10px;
-    font-size: 34px;
-    color: #000000;
+    margin: 0 0 18px;
+    font-size: 52px;
+    font-weight: 900;
+    color: #182532;
+    line-height: 1.2;
 }
 
 .hero p{
-    max-width: 700px;
-    margin: 0 auto 24px;
-    font-size: 17px;
-    color: #000000;
+    max-width: 760px;
+    margin: 0 auto 34px;
+    font-size: 21px;
+    color: #42576a;
+    line-height: 1.9;
 }
 
 .button-group{
@@ -103,13 +158,23 @@ nav a:hover{
     flex-wrap: wrap;
 }
 
+
+
+.btn,
+.btn:link,
+.btn:visited,
+.btn:hover,
+.btn:active{
+    text-decoration: none;
+}
+
 .btn{
     display: inline-block;
-    text-decoration: none;
-    padding: 12px 22px;
-    border-radius: 8px;
-    font-weight: 600;
-    transition: 0.2s;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 17px;
+    transition: 0.2s ease;
     border: 1px solid transparent;
 }
 
@@ -120,8 +185,13 @@ nav a:hover{
 }
 
 .btn-primary:hover{
-    background: #7eb8f4;
+    background: #a9d8ff;
+    color: #16324a;
+    border-color: #98cdf8;
+    transform: translateY(-3px);
+
 }
+
 
 .btn-secondary{
     background: #ffffff;
@@ -133,11 +203,6 @@ nav a:hover{
     background: #f5f5f5;
 }
 
-.section-title{
-    font-size: 24px;
-    margin-bottom: 14px;
-    color: #000000;
-}
 
 .placeholder-box{
     background: #ffffff;
@@ -150,7 +215,12 @@ nav a:hover{
 
 .placeholder-box p{
     margin: 0;
-    color: #000000;
+    color: #1f2d3a;
+    border: 1px solid #d4dee8;
+}
+
+.btn-secondary:hover{
+    background: #f5f9fd;
 }
 
 .contact-wrapper{
@@ -163,18 +233,24 @@ nav a:hover{
 .contact-info-box,
 .contact-form-box,
 .map-box{
-    background: #ffffff;
-    border: 1px solid #dddddd;
-    border-radius: 12px;
-    padding: 24px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+   background: #ffffff;
+    border: 1px solid #dde6ef;
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+}
+
+.section-title{
+    font-size: 24px;
+    margin-bottom: 14px;
+    color: #182532;
 }
 
 .contact-info-box p,
 .contact-form-box p,
 .map-box p{
     margin-top: 0;
-    color: #000000;
+    color: #1f1f1f;
 }
 
 form{
@@ -188,8 +264,8 @@ form{
 label{
     display: block;
     margin-bottom: 6px;
-    font-weight: 600;
-    color: #000000;
+    font-weight: 700;
+    color: #1f1f1f;
 }
 
 input,
@@ -208,25 +284,47 @@ textarea{
     min-height: 140px;
 }
 
-.error-message{
-    color: #c62828;
-    font-size: 14px;
-    margin-top: 4px;
-    display: block;
+
+input:focus,
+textarea:focus{
+    border-color: #a9d8ff;
 }
 
+textarea{
+    width: 100%;
+    min-height: 180px;
+    resize: vertical;
+}
+
+
+
 footer{
-    background: #8ec5ff;
-    color: #000000;
+    background: #d8edff;
+    color: #223344;
     text-align: center;
-    padding: 18px;
-    margin-top: 50px;
-    border-top: 1px solid #d9d9d9;
+    padding: 24px 20px;
+    border-top: 1px solid #e7f1fa;
 }
 
 footer p{
-    margin: 0;
-    font-size: 14px;
+    margin: 0 auto;
+    max-width: 980px;
+    font-size: 15px;
+    line-height: 1.9;
+}
+
+@media (max-width: 992px){
+    .hero h1{
+        font-size: 42px;
+    }
+
+    .hero p{
+        font-size: 19px;
+    }
+
+    .store-name{
+        font-size: 30px;
+    }
 }
 
 @media (max-width: 768px){
@@ -234,6 +332,7 @@ footer p{
         flex-direction: column;
         align-items: flex-start;
         gap: 14px;
+        padding: 16px 22px;
     }
 
     nav{
@@ -245,7 +344,31 @@ footer p{
         grid-template-columns: 1fr;
     }
 
-    .hero h1{
-        font-size: 28px;
+    
+    .hero{
+        padding: 60px 10px 40px;
     }
+
+    .hero h1{
+        font-size: 34px;
+    }
+
+    .hero p{
+        font-size: 17px;
+    }
+
+    .store-name{
+        font-size: 24px;
+    }
+}
+.error-message{
+    color: #e74c3c;
+    font-size: 14px;
+    margin-top: 6px;
+    display: block;
+    min-height: 20px;
+}
+
+.input-error{
+    border: 2px solid #e74c3c !important;
 }

@@ -1,45 +1,21 @@
 <?php
+// Author: Danah
+// Task: Home page for Little Minds Store
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 $pageTitle = "Little Minds Store - Home";
+include 'includes/header.php';
 ?>
-<?php
-$pageTitle = "Little Minds Store - Home";
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $pageTitle; ?></title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
 
-<header>
-    <div class="logo">
-        <span class="logo-icon">🧸</span>
-        <span class="store-name">Little Minds Store</span>
-    </div>
-
-    <nav>
-        <a href="index.php">Home</a>
-        <a href="products.php">Products</a>
-        <a href="contact.php">Contact Us</a>
-        <a href="cart.php" class="cart-link">
-            <span class="cart-icon">🛒</span>
-            <span>Cart</span>
-        </a>
-    </nav>
-</header>
 
 <section class="main-section">
     <div class="hero">
-        <h1>Welcome to Little Minds Store</h1>
+        <h1>Learning Through Play Starts Here</h1>
         <p>
-            A simple online store for educational toys, books, puzzles, and fun learning tools for children.
-            This page is prepared to be connected later with the database and backend.
+            Welcome to Little Minds Store, where educational toys and creative learning tools
+            make every playtime more meaningful, enjoyable, and inspiring for children.
         </p>
 
         <div class="button-group">
@@ -81,11 +57,18 @@ $pageTitle = "Little Minds Store - Home";
             </p>
         </div>
     </section>
+
+
+   <div class="map-box" style="margin-top: 20px;">
+    <h2 class="section-title">Past Purchases</h2>
+
+    <div id="pastPurchasesContainer">
+        <p id="pastPurchasesText">
+            Returning customers will be able to view their past purchases here.
+        </p>
+    </div>
+
+</div>
 </section>
 
-<footer>
-    <p>&copy; 2026 Little Minds Store. All rights reserved.</p>
-</footer>
-
-</body>
-</html>
+<?php include 'includes/footer.php'; ?>

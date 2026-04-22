@@ -1,47 +1,16 @@
 <?php
+// Author: Danah
+// Task: Contact Us page for Little Minds Store
 $pageTitle = "Little Minds Store - Contact Us";
-
-$name = "";
-$email = "";
-$message = "";
-
-$nameError = "";
-$emailError = "";
-$messageError = "";
+include 'includes/header.php';
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $pageTitle; ?></title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-
-<header>
-    <div class="logo">
-        <span class="logo-icon">🧸</span>
-        <span class="store-name">Little Minds Store</span>
-    </div>
-
-    <nav>
-        <a href="index.php">Home</a>
-        <a href="products.php">Products</a>
-        <a href="contact.php">Contact Us</a>
-        <a href="cart.php" class="cart-link">
-            <span class="cart-icon">🛒</span>
-            <span>Cart</span>
-        </a>
-    </nav>
-</header>
 
 <section class="main-section">
-    <div class="hero">
+    <div class="hero" style="padding-bottom: 30px;">
         <h1>Contact Us</h1>
         <p>
-            If you have any questions or need help, you can contact us using the information below
-            or send us a message through the form.
+            We are happy to hear from you. For any questions or support, please use the contact information
+            below or send us a message through the form.
         </p>
     </div>
 
@@ -49,40 +18,31 @@ $messageError = "";
         <div class="contact-info-box">
             <h2 class="section-title">Store Information</h2>
             <p><strong>Store Name:</strong> Little Minds Store</p>
-            <p><strong>Email:</strong> info@littlemindsstore.com</p>
-            <p><strong>Phone:</strong> +966 5X XXX XXXX</p>
-            <p><strong>Address:</strong> Dammam, Saudi Arabia</p>
-            <p>
-                This section can be updated later with the final team contact details and official store address.
-            </p>
+            <p><strong>Email:</strong> info@littleminds.com</p>
+            <p><strong>Phone:</strong> +966 5XXXXXXXX</p>
+            <p><strong>Location:</strong> Dammam, Saudi Arabia</p>
         </div>
 
         <div class="contact-form-box">
-            <h2 class="section-title">Send a Message</h2>
+            <h2 class="section-title">Send Message</h2>
 
-            <form action="" method="post">
+            <form id="contactForm" method="post" action="" novalidate>
                 <div class="form-group">
-                    <label for="name">Full Name</label>
-                    <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($name); ?>">
-                    <?php if (!empty($nameError)) { ?>
-                        <span class="error-message"><?php echo $nameError; ?></span>
-                    <?php } ?>
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" placeholder="Enter your name">
+                    <span class="error-message" id="nameError"></span>
                 </div>
 
                 <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($email); ?>">
-                    <?php if (!empty($emailError)) { ?>
-                        <span class="error-message"><?php echo $emailError; ?></span>
-                    <?php } ?>
+                    <label for="email">Email</label>
+                    <input type="text" id="email" name="email" placeholder="example@email.com" autocomplete="off">
+                    <span class="error-message" id="emailError"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="message">Message</label>
-                    <textarea id="message" name="message"><?php echo htmlspecialchars($message); ?></textarea>
-                    <?php if (!empty($messageError)) { ?>
-                        <span class="error-message"><?php echo $messageError; ?></span>
-                    <?php } ?>
+                    <textarea id="message" name="message" placeholder="Write your message here..."></textarea>
+                    <span class="error-message" id="messageError"></span>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Send Message</button>
@@ -90,19 +50,19 @@ $messageError = "";
         </div>
     </div>
 
-    <br>
-
-    <div class="map-box">
+    <div style="margin-top: 28px;" class="map-box">
         <h2 class="section-title">Store Location</h2>
-        <p>
-            Google Map will be added here later after confirming the final store location.
-        </p>
+        <p><strong>Location:</strong> Dammam, Saudi Arabia</p>
+
+        <iframe
+            src="https://maps.google.com/maps?q=Dammam%20Saudi%20Arabia&t=&z=13&ie=UTF8&iwloc=&output=embed"
+            width="100%"
+            height="300"
+            style="border:0; border-radius:12px; margin-top:16px;"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
     </div>
 </section>
 
-<footer>
-    <p>&copy; 2026 Little Minds Store. All rights reserved.</p>
-</footer>
-
-</body>
-</html>
+<?php include 'includes/footer.php'; ?>

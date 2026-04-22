@@ -1,3 +1,9 @@
+<<?php
+// Author: JANA ALQAHTANI
+// Task: Display product details including price, quantity, and help
+?>
+
+
 <?php include 'includes/header.php'; ?>
 <?php include 'database/db.php'; ?>
 
@@ -16,9 +22,12 @@
                 <img src="images/products/<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>" width="220">
                 <h2><?php echo $product['name']; ?></h2>
                 <p><?php echo $product['description']; ?></p>
+
                 <p><strong>Price:</strong> <?php echo $product['price']; ?> SAR</p>
 
-                <form action="cart.php" method="POST">
+                <p><strong>Help:</strong> Need help? <a href="contact.php">Contact us</a> for more details about this product.</p>
+
+                <form action="cart.php" method="POST" onsubmit="return showPopup()">
                     <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
 
                     <label for="quantity">Quantity:</label>
@@ -35,5 +44,12 @@
     }
     ?>
 </section>
+
+<script>
+function showPopup() {
+    alert("Product added to cart successfully!");
+    return true;
+}
+</script>
 
 <?php include 'includes/footer.php'; ?>

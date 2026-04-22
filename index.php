@@ -9,7 +9,6 @@ $pageTitle = "Little Minds Store - Home";
 include 'includes/header.php';
 ?>
 
-
 <section class="main-section">
     <div class="hero">
         <h1>Learning Through Play Starts Here</h1>
@@ -58,17 +57,42 @@ include 'includes/header.php';
         </div>
     </section>
 
+    <div class="map-box" style="margin-top: 20px;">
+        <h2 class="section-title">Past Purchases</h2>
 
-   <div class="map-box" style="margin-top: 20px;">
-    <h2 class="section-title">Past Purchases</h2>
-
-    <div id="pastPurchasesContainer">
-        <p id="pastPurchasesText">
-            Returning customers will be able to view their past purchases here.
-        </p>
+        <div id="pastPurchasesContainer">
+            <p>No past purchases found yet.</p>
+        </div>
     </div>
 
-</div>
 </section>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
 
-<?php include 'includes/footer.php'; ?>
+    let purchases = localStorage.getItem("pastPurchases");
+    let container = document.getElementById("pastPurchasesContainer");
+
+    if (container) {
+        if (purchases) {
+            purchases = JSON.parse(purchases);
+
+            if (purchases.length > 0) {
+                let output = "<ul>";
+
+                purchases.forEach(item => {
+                    output += "<li>" + item + "</li>";
+                });
+
+                output += "</ul>";
+
+                container.innerHTML = output;
+            } else {
+                container.innerHTML = "<p>No past purchases found yet.</p>";
+            }
+        } else {
+            container.innerHTML = "<p>No past purchases found yet.</p>";
+        }
+    }
+
+});
+</script>

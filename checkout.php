@@ -14,6 +14,7 @@ if (!isset($_SESSION['cart'])) {
 
 $message = "";
 $purchase_completed = false;
+$pastPurchases = [];
 
 // Remove item
 if (isset($_GET['remove'])) {
@@ -108,9 +109,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['buy_now'])) {
 
                 $update_query = "UPDATE products SET stock = stock - $quantity WHERE id = $product_id";
                 mysqli_query($conn, $update_query);
+
+                $pastPurchases[] = $item['name'];
             }
 
-            setcookie("past_purchases", json_encode($_SESSION['cart']), time() + (86400 * 30), "/");
+            setcookie("past_purchases", json_encode($pastPurchases), time() + (86400 * 30), "/");
 
             $_SESSION['cart'] = [];
             $purchase_completed = true;
@@ -132,6 +135,21 @@ include 'includes/header.php';
     <?php } ?>
 
     <?php if ($purchase_completed) { ?>
+        <script>
+            let purchases = localStorage.getItem("pastPurchases");
+
+            if (purchases) {
+                purchases = JSON.parse(purchases);
+            } else {
+                purchases = [];
+            }
+
+            let newPurchases = <?php echo json_encode($pastPurchases); ?>;
+            purchases = purchases.concat(newPurchases);
+
+            localStorage.setItem("pastPurchases", JSON.stringify(purchases));
+        </script>
+
         <p>Your order has been placed and your cart is now empty.</p>
         <div class="button-group">
             <a href="products.php" class="btn btn-primary">Continue Shopping</a>

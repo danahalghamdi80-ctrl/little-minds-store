@@ -1,3 +1,4 @@
+
 /* 
 Author: Danah
 Task: Website styling (layout, buttons, forms, cart icon, responsive design)
@@ -23,16 +24,16 @@ body{
 }
 
 header{
-    background: #d8edff;
-    padding: 18px 40px;
+    background: #8ec5ff;
+    padding: 16px 32px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #e7f1fa;
+    border-bottom: 1px solid #d9d9d9;
     position: sticky;
     top: 0;
-    z-index: 1000;
 }
+
 
 .logo,
 .logo:link,
@@ -71,8 +72,9 @@ header{
 nav{
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: 22px;
 }
+
 
 nav a,
 nav a:link,
@@ -129,8 +131,9 @@ nav a:hover{
 
 .hero{
     text-align: center;
-    padding: 90px 20px 70px;
+    padding: 40px 20px 20px;
 }
+
 
 .hero h1{
     margin: 0 0 18px;
@@ -151,9 +154,11 @@ nav a:hover{
 .button-group{
     display: flex;
     justify-content: center;
-    gap: 16px;
+    gap: 14px;
     flex-wrap: wrap;
 }
+
+
 
 .btn,
 .btn:link,
@@ -174,18 +179,42 @@ nav a:hover{
 }
 
 .btn-primary{
-    background: #a9d8ff;
-    color: #16324a;
-    border-color: #98cdf8;
+    background: #8ec5ff;
+    color: #000000;
+    border-color: #7eb8f4;
 }
 
 .btn-primary:hover{
-    background: #98cdf8;
+    background: #a9d8ff;
+    color: #16324a;
+    border-color: #98cdf8;
     transform: translateY(-3px);
+
 }
+
 
 .btn-secondary{
     background: #ffffff;
+    color: #000000;
+    border: 1px solid #cfcfcf;
+}
+
+.btn-secondary:hover{
+    background: #f5f5f5;
+}
+
+
+.placeholder-box{
+    background: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 12px;
+    padding: 24px;
+    min-height: 140px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.placeholder-box p{
+    margin: 0;
     color: #1f2d3a;
     border: 1px solid #d4dee8;
 }
@@ -204,7 +233,7 @@ nav a:hover{
 .contact-info-box,
 .contact-form-box,
 .map-box{
-    background: #ffffff;
+   background: #ffffff;
     border: 1px solid #dde6ef;
     border-radius: 16px;
     padding: 28px;
@@ -243,13 +272,18 @@ input,
 textarea{
     width: 100%;
     padding: 12px;
-    border: 1px solid #cfd9e3;
-    border-radius: 10px;
+    border: 1px solid #cfcfcf;
+    border-radius: 8px;
     font-size: 15px;
-    color: #1f1f1f;
+    color: #000000;
     background: #ffffff;
-    outline: none;
 }
+
+textarea{
+    resize: vertical;
+    min-height: 140px;
+}
+
 
 input:focus,
 textarea:focus{
@@ -262,17 +296,7 @@ textarea{
     resize: vertical;
 }
 
-.error-message{
-    color: #e74c3c;
-    font-size: 14px;
-    margin-top: 6px;
-    display: block;
-    min-height: 20px;
-}
 
-.input-error{
-    border: 2px solid #e74c3c !important;
-}
 
 footer{
     background: #d8edff;
@@ -320,6 +344,7 @@ footer p{
         grid-template-columns: 1fr;
     }
 
+    
     .hero{
         padding: 60px 10px 40px;
     }
@@ -335,7 +360,8 @@ footer p{
     .store-name{
         font-size: 24px;
     }
-}.error-message{
+}
+.error-message{
     color: #e74c3c;
     font-size: 14px;
     margin-top: 6px;

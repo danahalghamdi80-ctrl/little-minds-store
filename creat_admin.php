@@ -138,11 +138,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php endif; ?>
 
     <form method="POST">
-        <label>Username</label>
-        <input type="text" name="username">
 
-        <label>Password</label>
-        <input type="password" name="password">
+        <div class="form-group">
+            <label>Username</label>
+            <input type="text" name="username">
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" name="password">
+        </div>
 
         <button type="submit">Create</button>
     </form>

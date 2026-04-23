@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3308
--- Generation Time: Mar 30, 2026 at 08:55 PM
+-- Generation Time: Apr 23, 2026 at 02:58 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -38,7 +38,11 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`id`, `username`, `password`) VALUES
-(1, 'atheer2005', '$2y$10$KpuQJmeST3uMQgs3cM7foOV6/eoNG6EHxv5RynIBz.ocad1QBiuGC');
+(2, 'atheer1', '$2y$10$EFCWXKRSMA8HmWFyq8AT2uaMYd0vEp2O.BWqoF7ktoex6TAZKHstW'),
+(3, 'dana2', '$2y$10$BEfmJPOP51MZfSd81UDGK.Die4WMcrwv1VBq1zcGKhzrAwD4mLvhq'),
+(4, 'aljowry1', '$2y$10$yJLiGCEL4nT9xDcdwbXCX.kCUiMZGzfz28n4/DSRf4qY7Jk2cfh3e'),
+(5, 'hana2', '$2y$10$HiulJJgCdMfJj6FRC5B8Jujs61jA1h6ejdw4N0MG4pB/Y6cNKt0lm'),
+(6, 'jana1', '$2y$10$azVNCGzqQD/o0Qslfy.DdOW/7LSghoNiVwPO8MxN5j1Bnjp2tb9za');
 
 -- --------------------------------------------------------
 
@@ -92,7 +96,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `products`

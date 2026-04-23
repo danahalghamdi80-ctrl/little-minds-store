@@ -1,11 +1,9 @@
 <?php
-// Author: hana
-// Task: admin dashboard with login protection
-
+//Author : hana
+// Task: Admin dashboard system with login authentication and product management (add, edit, delete, search) with database integration and page protection.
 session_start();
 
-include 'includes/header.php';
-//  PAGE PROTECTION
+/*  PROTECTION */
 if (!isset($_SESSION["admin_id"])) {
     header("Location: login.php");
     exit();
@@ -14,7 +12,7 @@ if (!isset($_SESSION["admin_id"])) {
 // Connect to the database
 include 'database/db.php';
 
-/* ADD PRODUCT */
+/*  ADD PRODUCT */
 if (isset($_POST['add'])) {
 
     $name = trim($_POST['name']);
@@ -23,56 +21,55 @@ if (isset($_POST['add'])) {
 
     // VALIDATION (improved)
     if (empty($name) || empty($description) || empty($price)) {
-        echo "Please fill all required fields";
-    } else {
-
-        // IMAGE CHECK
-        $image = "";
-        if (!empty($_FILES['image']['name'])) {
-
-            $image = time() . "_" . $_FILES['image']['name'];
-            $tmp = $_FILES['image']['tmp_name'];
-
-            //  EXTENSION CHECK
-            $allowed = ['jpg', 'jpeg', 'png'];
-            $ext = strtolower(pathinfo($image, PATHINFO_EXTENSION));
-
-            if (!in_array($ext, $allowed)) {
-                echo "Invalid image type";
-                exit();
-            }
-
-            move_uploaded_file($tmp, "images/products/" . $image);
-        }
-
-        $stmt = $conn->prepare("INSERT INTO products (name, description, price, image) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssis", $name, $description, $price, $image);
-
-        if ($stmt->execute()) {
-            echo "Product added successfully";
-        } else {
-            echo "Error adding product";
-        }
+        $_SESSION['msg'] = "Please fill all fields";
+        header("Location: admin.php");
+        exit();
     }
-}
 
-/* DELETE PRODUCT */
-if (isset($_GET['delete'])) {
+    $image = "";
 
-    $product_id = $_GET['delete'];
+    if (!empty($_FILES['image']['name'])) {
 
-    $stmt = $conn->prepare("DELETE FROM products WHERE id=?");
-    $stmt->bind_param("i", $product_id);
+        $image = time() . "_" . $_FILES['image']['name'];
+        $tmp = $_FILES['image']['tmp_name'];
 
+        $allowed = ['jpg','jpeg','png'];
+        $ext = strtolower(pathinfo($image, PATHINFO_EXTENSION));
+
+        if (!in_array($ext, $allowed)) {
+            $_SESSION['msg'] = "Invalid image type";
+            header("Location: admin.php");
+            exit();
+        }
+
+        move_uploaded_file($tmp, "images/products/" . $image);
+    }
+
+    $stmt = $conn->prepare("INSERT INTO products (name, description, price, image) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssis", $name, $description, $price, $image);
     $stmt->execute();
 
-    echo "Product deleted successfully";
+    header("Location: admin.php");
+    exit();
 }
 
-/* UPDATE PRODUCT */
+/*  DELETE PRODUCT */
+if (isset($_POST['delete'])) {
+
+    $id = $_POST['delete_id'];
+
+    $stmt = $conn->prepare("DELETE FROM products WHERE id=?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+
+    header("Location: admin.php");
+    exit();
+}
+
+/*  UPDATE PRODUCT */
 if (isset($_POST['update'])) {
 
-    $product_id = $_POST['id'];
+    $id = $_POST['id'];
     $name = trim($_POST['name']);
     $description = trim($_POST['description']);
     $price = $_POST['price'];
@@ -82,33 +79,33 @@ if (isset($_POST['update'])) {
         $image = time() . "_" . $_FILES['image']['name'];
         $tmp = $_FILES['image']['tmp_name'];
 
-        $allowed = ['jpg', 'jpeg', 'png'];
+        $allowed = ['jpg','jpeg','png'];
         $ext = strtolower(pathinfo($image, PATHINFO_EXTENSION));
 
         if (!in_array($ext, $allowed)) {
-            echo "Invalid image type";
+            $_SESSION['msg'] = "Invalid image type";
+            header("Location: admin.php");
             exit();
         }
 
         move_uploaded_file($tmp, "images/products/" . $image);
 
         $stmt = $conn->prepare("UPDATE products SET name=?, description=?, price=?, image=? WHERE id=?");
-        $stmt->bind_param("ssisi", $name, $description, $price, $image, $product_id);
+        $stmt->bind_param("ssisi", $name, $description, $price, $image, $id);
 
     } else {
 
         $stmt = $conn->prepare("UPDATE products SET name=?, description=?, price=? WHERE id=?");
-        $stmt->bind_param("ssii", $name, $description, $price, $product_id);
+        $stmt->bind_param("ssii", $name, $description, $price, $id);
     }
 
-    if ($stmt->execute()) {
-        echo "Product updated successfully";
-    } else {
-        echo "Update failed";
-    }
+    $stmt->execute();
+
+    header("Location: admin.php");
+    exit();
 }
 
-/* SEARCH */
+/*  SEARCH */
 $search = "";
 
 if (isset($_GET['search'])) {
@@ -119,21 +116,22 @@ if (isset($_GET['search'])) {
     $like = "%$search%";
     $stmt->bind_param("s", $like);
     $stmt->execute();
+
     $result = $stmt->get_result();
 
 } else {
     $result = $conn->query("SELECT * FROM products");
 }
 
-/* EDIT */
+/*  EDIT */
 $editProduct = null;
 
 if (isset($_GET['edit'])) {
 
-    $product_id = $_GET['edit'];
+    $id = $_GET['edit'];
 
     $stmt = $conn->prepare("SELECT * FROM products WHERE id=?");
-    $stmt->bind_param("i", $product_id);
+    $stmt->bind_param("i", $id);
     $stmt->execute();
 
     $editProduct = $stmt->get_result()->fetch_assoc();
@@ -144,12 +142,20 @@ if (isset($_GET['edit'])) {
 
 <div class="container">
 
-<!-- ADMIN -->
+<!-- ADMIN INFO -->
 <h2>Welcome <?php echo htmlspecialchars($_SESSION["admin_username"]); ?></h2>
 
-<a class="logout" href="logout.php">Logout</a>
+<a href="logout.php">Logout</a>
 
 <hr>
+
+<!-- MESSAGE -->
+<?php
+if (isset($_SESSION['msg'])) {
+    echo "<p>" . $_SESSION['msg'] . "</p>";
+    unset($_SESSION['msg']);
+}
+?>
 
 <!-- SEARCH -->
 <form method="GET">
@@ -159,7 +165,7 @@ if (isset($_GET['edit'])) {
 
 <hr>
 
-<!-- ADD / EDIT -->
+<!-- ADD / EDIT FORM -->
 <?php if ($editProduct == null) { ?>
 
 <h3>Add Product</h3>
@@ -216,8 +222,16 @@ if (isset($_GET['edit'])) {
     </td>
 
     <td>
-        <a href="admin.php?edit=<?php echo $row['id']; ?>">Edit</a> |
-        <a onclick="return confirm('Are you sure?')" href="admin.php?delete=<?php echo $row['id']; ?>">Delete</a>
+
+        <!-- EDIT -->
+        <a href="admin.php?edit=<?php echo $row['id']; ?>">Edit</a>
+
+        <!-- DELETE (POST) -->
+        <form method="POST" style="display:inline;">
+            <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
+            <button name="delete" onclick="return confirm('Are you sure?')">Delete</button>
+        </form>
+
     </td>
 </tr>
 <?php } ?>

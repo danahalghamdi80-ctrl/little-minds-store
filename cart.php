@@ -111,6 +111,98 @@ if (isset($_GET['empty']) && $_GET['empty'] == 1) {
 }
 ?>
 
+
+<style>
+
+.button-group a,
+.button-group button {
+    font-size: 22px !important;
+    padding: 15px 40px !important;
+    margin: 10px !important;
+    border-radius: 10px !important;
+}
+
+.button-group {
+    display: flex !important;
+    justify-content: center !important; 
+    transform: translateX(300px);
+}
+
+.main-section h2 {
+    font-size: 70px !important;
+    text-align: center !important;
+    margin-left: 600px !important; 
+}
+
+.products-container {
+    display: block !important;
+}
+
+.product-card {
+    width: 80% !important;
+    margin-bottom: 60px !important;
+    padding: 40px !important;
+    box-sizing: border-box !important;
+    border-bottom: 1px solid #eee !important;
+    text-align: left !important;
+}
+
+.product-card img {
+    width: 300px !important;
+    margin-bottom: 25px !important;
+}
+
+.product-card h3 {
+    font-size: 32px !important;
+}
+
+.product-card p,
+.product-card label {
+    font-size: 20px !important;
+}
+
+.product-card input[type="number"] {
+    width: 140px !important;
+    font-size: 18px !important;
+    padding: 10px !important;
+}
+
+.product-card a[href*="remove"] {
+    background: red !important;
+    color: white !important;
+    padding: 15px 35px !important;
+    font-size: 18px !important;
+    border-radius: 10px !important;
+}
+.products-container {
+    margin-left: 0 !important;
+}
+
+.product-card {
+    margin-left: 0 !important;
+    margin-right: auto !important;
+}
+
+
+.product-card * {
+    text-align: left !important;
+}
+.main-section {
+    margin-left: 60px !important;  
+    padding-left: 0 !important;
+}
+.main-section p strong {
+    font-size: 30px !important;
+    color: green !important;
+}
+
+.main-section p {
+    font-size: 22px !important;
+    margin-top: 10px !important;
+}
+</style>
+
+
 <section class="main-section">
     <h2 class="section-title">Shopping Cart</h2>
 
@@ -162,6 +254,6 @@ if (isset($_GET['empty']) && $_GET['empty'] == 1) {
             <a href="products.php" class="btn btn-primary">Continue Shopping</a>
         </div>
     <?php } ?>
-</section>
+</section>س
 
 <?php include 'includes/footer.php'; ?>

@@ -106,8 +106,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php endif; ?>
 
     <form method="POST">
+<<<<<<< HEAD
+
+        <div class="form-group">
+            <label>Username</label>
+            <input type="text" name="username">
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" name="password">
+        </div>
+
+=======
         <input type="text" name="username" placeholder="Username">
         <input type="password" name="password" placeholder="Password">
+>>>>>>> 1158a06f54736aac19ff9aa71c618764d9d7410c
         <button type="submit">Create</button>
     </form>
 </div>

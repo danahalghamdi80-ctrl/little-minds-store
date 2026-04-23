@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3308
--- Generation Time: Mar 30, 2026 at 08:55 PM
+-- Generation Time: Apr 23, 2026 at 02:58 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -38,7 +38,11 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`id`, `username`, `password`) VALUES
-(1, 'atheer2005', '$2y$10$KpuQJmeST3uMQgs3cM7foOV6/eoNG6EHxv5RynIBz.ocad1QBiuGC');
+(2, 'atheer1', '$2y$10$EFCWXKRSMA8HmWFyq8AT2uaMYd0vEp2O.BWqoF7ktoex6TAZKHstW'),
+(3, 'dana2', '$2y$10$BEfmJPOP51MZfSd81UDGK.Die4WMcrwv1VBq1zcGKhzrAwD4mLvhq'),
+(4, 'aljowry1', '$2y$10$yJLiGCEL4nT9xDcdwbXCX.kCUiMZGzfz28n4/DSRf4qY7Jk2cfh3e'),
+(5, 'hana2', '$2y$10$HiulJJgCdMfJj6FRC5B8Jujs61jA1h6ejdw4N0MG4pB/Y6cNKt0lm'),
+(6, 'jana1', '$2y$10$azVNCGzqQD/o0Qslfy.DdOW/7LSghoNiVwPO8MxN5j1Bnjp2tb9za');
 
 -- --------------------------------------------------------
 
@@ -51,21 +55,21 @@ CREATE TABLE `products` (
   `name` varchar(100) NOT NULL,
   `description` text DEFAULT NULL,
   `price` decimal(10,2) NOT NULL,
-  `stock` int(11) NOT NULL,
-  `image` varchar(255) NOT NULL
+  `image` varchar(255) NOT NULL,
+  `stock` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `name`, `description`, `price`, `stock`, `image`) VALUES
-(1, 'Alphabet Toy', 'Educational alphabet toy for kids', 40.00, 10, 'alphabet-toy.jpg'),
-(2, 'Building Blocks', 'Colorful blocks for creativity', 60.00, 8, 'blocks.jpg'),
-(3, 'Coloring Book', 'Fun coloring book for children', 25.00, 15, 'coloring-book.jpeg'),
-(4, 'Numbers Toy', 'Learn numbers with fun toys', 35.00, 12, 'numbers-toy.jpg'),
-(5, 'Puzzle', 'Brain puzzle game', 30.00, 9, 'puzzle.jpg'),
-(6, 'Story Book', 'Kids story book', 20.00, 20, 'storybook.jpg');
+INSERT INTO `products` (`id`, `name`, `description`, `price`, `image`, `stock`) VALUES
+(1, 'Alphabet Toy', 'Educational alphabet toy for kids', 40.00, 'alphabet-toy.jpg', 10),
+(2, 'Building Blocks', 'Colorful blocks for creativity', 60.00, 'blocks.jpg', 8),
+(3, 'Coloring Book', 'Fun coloring book for children', 25.00, 'coloring-book.jpeg', 15),
+(4, 'Numbers Toy', 'Learn numbers with fun toys', 35.00, 'numbers-toy.jpg', 12),
+(5, 'Puzzle', 'Brain puzzle game', 30.00, 'puzzle.jpg', 9),
+(6, 'Story Book', 'Kids story book', 20.00, 'storybook.jpg', 20);
 
 --
 -- Indexes for dumped tables
@@ -92,7 +96,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `products`

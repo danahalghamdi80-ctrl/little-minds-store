@@ -1,3 +1,5 @@
+
+
 <?php
 // Author: Danah
 // Task: Home page for Little Minds Store

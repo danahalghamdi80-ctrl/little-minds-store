@@ -1,4 +1,4 @@
-<<?php
+<?php
 // Author: JANA ALQAHTANI
 // Task: Display product details including price, quantity, and help
 ?>

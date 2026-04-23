@@ -24,7 +24,7 @@ body{
 }
 
 header{
-    background: #8ec5ff;
+    background: #d8edff;
     padding: 16px 32px;
     display: flex;
     justify-content: space-between;
@@ -216,7 +216,7 @@ nav a:hover{
 .placeholder-box p{
     margin: 0;
     color: #1f2d3a;
-    border: 1px solid #d4dee8;
+   
 }
 
 .btn-secondary:hover{
@@ -300,6 +300,7 @@ textarea{
 
 footer{
     background: #d8edff;
+
     color: #223344;
     text-align: center;
     padding: 24px 20px;

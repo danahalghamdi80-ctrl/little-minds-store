@@ -1,10 +1,7 @@
-<<<<<<< HEAD
-=======
 <?php
 // Author: Jana Alqahtani
 // Task: Display all products retrieved from the database
 ?>
->>>>>>> 1ca5c51b5db1f380816c59e9230d6d85593f7b13
 
 <?php include 'includes/header.php'; ?>
 <?php include 'database/db.php'; ?>

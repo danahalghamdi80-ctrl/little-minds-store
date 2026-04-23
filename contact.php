@@ -1,7 +1,6 @@
 <?php
 // Author: Danah
 // Task: Contact Us page for Little Minds Store
-
 $pageTitle = "Little Minds Store - Contact Us";
 include 'includes/header.php';
 ?>
@@ -30,34 +29,19 @@ include 'includes/header.php';
             <form id="contactForm" method="post" action="" novalidate>
                 <div class="form-group">
                     <label for="name">Name</label>
-                    <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        placeholder="Enter your name"
-                    >
+                    <input type="text" id="name" name="name" placeholder="Enter your name">
                     <span class="error-message" id="nameError"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input
-                        type="text"
-                        id="email"
-                        name="email"
-                        placeholder="example@email.com"
-                        autocomplete="off"
-                    >
+                    <input type="text" id="email" name="email" placeholder="example@email.com" autocomplete="off">
                     <span class="error-message" id="emailError"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="message">Message</label>
-                    <textarea
-                        id="message"
-                        name="message"
-                        placeholder="Write your message here..."
-                    ></textarea>
+                    <textarea id="message" name="message" placeholder="Write your message here..."></textarea>
                     <span class="error-message" id="messageError"></span>
                 </div>
 

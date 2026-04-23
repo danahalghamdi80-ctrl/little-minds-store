@@ -9,6 +9,7 @@ $pageTitle = "Little Minds Store - Home";
 include 'includes/header.php';
 ?>
 
+
 <section class="main-section">
     <div class="hero">
         <h1>Learning Through Play Starts Here</h1>
@@ -23,6 +24,40 @@ include 'includes/header.php';
         </div>
     </div>
 
+    <section>
+        <h2 class="section-title">About Our Store</h2>
+        <div class="placeholder-box">
+            <p>
+        
+                Little Minds Store is a modern online platform dedicated to providing high-quality educational products for children.
+
+                Our goal is to support early learning and creativity through carefully selected toys, books, and interactive tools that combine fun with education.
+
+                We aim to offer parents a simple, reliable, and enjoyable shopping experience, with a focus on quality, usability, and future expansion of features such as personalized recommendations and advanced shopping options.
+
+
+
+            
+            </p>
+        </div>
+    </section>
+
+    <br>
+
+    <section>
+        <h2 class="section-title">Why Choose Us</h2>
+        <div class="placeholder-box">
+            <p>
+               At Little Minds Store, we prioritize both quality and user experience. Our platform is designed to be simple, intuitive, and accessible for all users.
+
+               We carefully select products that promote learning, creativity, and child development, ensuring they meet high standards of safety and educational value.
+
+               Our system is built with scalability in mind, allowing future integration of advanced features such as secure checkout, personalized recommendations, and enhanced user accounts to improve the overall shopping experience.
+            </p>
+        </div>
+    </section>
+
+
    <div class="map-box" style="margin-top: 20px;">
     <h2 class="section-title">Past Purchases</h2>
 
@@ -36,3 +71,33 @@ include 'includes/header.php';
 </section>
 
 <?php include 'includes/footer.php'; ?>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    let purchases = localStorage.getItem("pastPurchases");
+    let container = document.getElementById("pastPurchasesContainer");
+
+    if (container) {
+        if (purchases) {
+            purchases = JSON.parse(purchases);
+
+            if (purchases.length > 0) {
+                let output = "<ul>";
+
+                purchases.forEach(item => {
+                    output += "<li>" + item + "</li>";
+                });
+
+                output += "</ul>";
+
+                container.innerHTML = output;
+            } else {
+                container.innerHTML = "<p>No past purchases found yet.</p>";
+            }
+        } else {
+            container.innerHTML = "<p>No past purchases found yet.</p>";
+        }
+    }
+
+});
+</script>

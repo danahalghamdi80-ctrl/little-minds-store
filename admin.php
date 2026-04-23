@@ -1,9 +1,11 @@
 <?php
 // Author: hana
-// // Task: admin dashboard with login protection (add products, Edit , delete , search ,display product)
+// Task: admin dashboard with login protection
+
 session_start();
 
-// Page protection
+include 'includes/header.php';
+//  PAGE PROTECTION
 if (!isset($_SESSION["admin_id"])) {
     header("Location: login.php");
     exit();
@@ -14,60 +16,127 @@ include 'database/db.php';
 
 /* ADD PRODUCT */
 if (isset($_POST['add'])) {
-    $name = $_POST['name'];
-    $description = $_POST['description'];
+
+    $name = trim($_POST['name']);
+    $description = trim($_POST['description']);
     $price = $_POST['price'];
 
-    // Upload the picture
-    $image = $_FILES['image']['name'];
-    $tmp = $_FILES['image']['tmp_name'];
+    // VALIDATION (improved)
+    if (empty($name) || empty($description) || empty($price)) {
+        echo "Please fill all required fields";
+    } else {
 
-    move_uploaded_file($tmp, "images/products/" . $image);
+        // IMAGE CHECK
+        $image = "";
+        if (!empty($_FILES['image']['name'])) {
 
-    mysqli_query($conn, "INSERT INTO products (name, description, price, image)
-    VALUES ('$name', '$description', '$price', '$image')");
+            $image = time() . "_" . $_FILES['image']['name'];
+            $tmp = $_FILES['image']['tmp_name'];
+
+            //  EXTENSION CHECK
+            $allowed = ['jpg', 'jpeg', 'png'];
+            $ext = strtolower(pathinfo($image, PATHINFO_EXTENSION));
+
+            if (!in_array($ext, $allowed)) {
+                echo "Invalid image type";
+                exit();
+            }
+
+            move_uploaded_file($tmp, "images/products/" . $image);
+        }
+
+        $stmt = $conn->prepare("INSERT INTO products (name, description, price, image) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("ssis", $name, $description, $price, $image);
+
+        if ($stmt->execute()) {
+            echo "Product added successfully";
+        } else {
+            echo "Error adding product";
+        }
+    }
 }
 
 /* DELETE PRODUCT */
 if (isset($_GET['delete'])) {
-    $id = $_GET['delete'];
-    mysqli_query($conn, "DELETE FROM products WHERE id=$id");
+
+    $product_id = $_GET['delete'];
+
+    $stmt = $conn->prepare("DELETE FROM products WHERE id=?");
+    $stmt->bind_param("i", $product_id);
+
+    $stmt->execute();
+
+    echo "Product deleted successfully";
 }
 
 /* UPDATE PRODUCT */
 if (isset($_POST['update'])) {
-    $id = $_POST['id'];
-    $name = $_POST['name'];
-    $description = $_POST['description'];
+
+    $product_id = $_POST['id'];
+    $name = trim($_POST['name']);
+    $description = trim($_POST['description']);
     $price = $_POST['price'];
 
-    mysqli_query($conn, "UPDATE products SET 
-        name='$name',
-        description='$description',
-        price='$price'
-        WHERE id=$id
-    ");
+    if (!empty($_FILES['image']['name'])) {
+
+        $image = time() . "_" . $_FILES['image']['name'];
+        $tmp = $_FILES['image']['tmp_name'];
+
+        $allowed = ['jpg', 'jpeg', 'png'];
+        $ext = strtolower(pathinfo($image, PATHINFO_EXTENSION));
+
+        if (!in_array($ext, $allowed)) {
+            echo "Invalid image type";
+            exit();
+        }
+
+        move_uploaded_file($tmp, "images/products/" . $image);
+
+        $stmt = $conn->prepare("UPDATE products SET name=?, description=?, price=?, image=? WHERE id=?");
+        $stmt->bind_param("ssisi", $name, $description, $price, $image, $product_id);
+
+    } else {
+
+        $stmt = $conn->prepare("UPDATE products SET name=?, description=?, price=? WHERE id=?");
+        $stmt->bind_param("ssii", $name, $description, $price, $product_id);
+    }
+
+    if ($stmt->execute()) {
+        echo "Product updated successfully";
+    } else {
+        echo "Update failed";
+    }
 }
 
 /* SEARCH */
 $search = "";
 
 if (isset($_GET['search'])) {
+
     $search = $_GET['search'];
-    $sql = "SELECT * FROM products WHERE name LIKE '%$search%'";
+
+    $stmt = $conn->prepare("SELECT * FROM products WHERE name LIKE ?");
+    $like = "%$search%";
+    $stmt->bind_param("s", $like);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
 } else {
-    $sql = "SELECT * FROM products";
+    $result = $conn->query("SELECT * FROM products");
 }
 
-$result = mysqli_query($conn, $sql);
-
-/* EDIT DATA */
+/* EDIT */
 $editProduct = null;
 
 if (isset($_GET['edit'])) {
-    $id = $_GET['edit'];
-    $res = mysqli_query($conn, "SELECT * FROM products WHERE id=$id");
-    $editProduct = mysqli_fetch_assoc($res);
+
+    $product_id = $_GET['edit'];
+
+    $stmt = $conn->prepare("SELECT * FROM products WHERE id=?");
+    $stmt->bind_param("i", $product_id);
+    $stmt->execute();
+
+    $editProduct = $stmt->get_result()->fetch_assoc();
 }
 ?>
 
@@ -75,7 +144,8 @@ if (isset($_GET['edit'])) {
 
 <div class="container">
 
-<h2>Welcome <?php echo $_SESSION["admin_username"]; ?></h2>
+<!-- ADMIN -->
+<h2>Welcome <?php echo htmlspecialchars($_SESSION["admin_username"]); ?></h2>
 
 <a class="logout" href="logout.php">Logout</a>
 
@@ -83,7 +153,7 @@ if (isset($_GET['edit'])) {
 
 <!-- SEARCH -->
 <form method="GET">
-    <input type="text" name="search" placeholder="Search product">
+    <input type="text" name="search" value="<?php echo htmlspecialchars($search); ?>" placeholder="Search product">
     <button>Search</button>
 </form>
 
@@ -97,7 +167,7 @@ if (isset($_GET['edit'])) {
 <form method="POST" enctype="multipart/form-data">
     <input type="text" name="name" placeholder="Name"><br><br>
     <input type="text" name="description" placeholder="Description"><br><br>
-    <input type="text" name="price" placeholder="Price"><br><br>
+    <input type="number" name="price" placeholder="Price"><br><br>
     <input type="file" name="image"><br><br>
     <button name="add">Add</button>
 </form>
@@ -106,12 +176,13 @@ if (isset($_GET['edit'])) {
 
 <h3>Edit Product</h3>
 
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
     <input type="hidden" name="id" value="<?php echo $editProduct['id']; ?>">
 
-    <input type="text" name="name" value="<?php echo $editProduct['name']; ?>"><br><br>
-    <input type="text" name="description" value="<?php echo $editProduct['description']; ?>"><br><br>
-    <input type="text" name="price" value="<?php echo $editProduct['price']; ?>"><br><br>
+    <input type="text" name="name" value="<?php echo htmlspecialchars($editProduct['name']); ?>"><br><br>
+    <input type="text" name="description" value="<?php echo htmlspecialchars($editProduct['description']); ?>"><br><br>
+    <input type="number" name="price" value="<?php echo $editProduct['price']; ?>"><br><br>
+    <input type="file" name="image"><br><br>
 
     <button name="update">Update</button>
 </form>
@@ -122,8 +193,8 @@ if (isset($_GET['edit'])) {
 
 <hr>
 
-<!-- TABLE -->
-<table>
+<!-- PRODUCTS -->
+<table border="1" cellpadding="10">
 <tr>
     <th>ID</th>
     <th>Name</th>
@@ -136,8 +207,8 @@ if (isset($_GET['edit'])) {
 <?php while ($row = mysqli_fetch_assoc($result)) { ?>
 <tr>
     <td><?php echo $row['id']; ?></td>
-    <td><?php echo $row['name']; ?></td>
-    <td><?php echo $row['description']; ?></td>
+    <td><?php echo htmlspecialchars($row['name']); ?></td>
+    <td><?php echo htmlspecialchars($row['description']); ?></td>
     <td><?php echo $row['price']; ?></td>
 
     <td>
@@ -146,7 +217,7 @@ if (isset($_GET['edit'])) {
 
     <td>
         <a href="admin.php?edit=<?php echo $row['id']; ?>">Edit</a> |
-        <a href="admin.php?delete=<?php echo $row['id']; ?>">Delete</a>
+        <a onclick="return confirm('Are you sure?')" href="admin.php?delete=<?php echo $row['id']; ?>">Delete</a>
     </td>
 </tr>
 <?php } ?>

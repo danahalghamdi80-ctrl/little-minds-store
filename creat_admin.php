@@ -1,13 +1,9 @@
 <?php
 // Author: Atheer
-// Task: Create new admin account (protected page)
+// Create Admin WITHOUT login (for testing)
 
-session_start();
-
-if (!isset($_SESSION["admin_id"])) {
-    header("Location: login.php");
-    exit();
-}
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 include 'database/db.php';
 
@@ -22,6 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $message = "Please fill in all fields.";
         $messageType = "error";
     } else {
+        // Check if username exists
         $check_sql = "SELECT id FROM admin WHERE username = ?";
         $check_stmt = mysqli_prepare($conn, $check_sql);
         mysqli_stmt_bind_param($check_stmt, "s", $username);
@@ -32,8 +29,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $message = "Username already exists.";
             $messageType = "error";
         } else {
+            // Hash password
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
+            // Insert new admin
             $sql = "INSERT INTO admin (username, password) VALUES (?, ?)";
             $stmt = mysqli_prepare($conn, $sql);
             mysqli_stmt_bind_param($stmt, "ss", $username, $hashed_password);
@@ -42,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $message = "Admin created successfully.";
                 $messageType = "success";
             } else {
-                $message = "Error creating admin.";
+                $message = "Error creating admin: " . mysqli_error($conn);
                 $messageType = "error";
             }
         }
@@ -54,102 +53,63 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Admin</title>
+
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f9;
+            font-family: Arial;
+            background: #f4f6f9;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            margin: 0;
+            height: 100vh;
         }
 
-        .container {
+        .box {
             background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            width: 350px;
+            padding: 25px;
+            border-radius: 10px;
+            width: 300px;
             text-align: center;
-        }
-
-        h2 {
-            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
 
         input {
             width: 100%;
             padding: 10px;
-            margin-top: 6px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            box-sizing: border-box;
+            margin: 8px 0;
         }
 
-        button, a {
-            display: inline-block;
+        button {
             width: 100%;
             padding: 10px;
-            background-color: #4a90e2;
+            background: #4a90e2;
             color: white;
             border: none;
-            border-radius: 8px;
-            text-decoration: none;
             cursor: pointer;
-            font-size: 16px;
-            box-sizing: border-box;
         }
 
-        button:hover, a:hover {
-            background-color: #357abd;
-        }
-
-        .message {
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
-
-        .success {
-            color: green;
-        }
-
-        .error {
-            color: red;
-        }
-
-        .back-link {
-            margin-top: 12px;
-        }
+        .success { color: green; }
+        .error { color: red; }
     </style>
 </head>
+
 <body>
 
-<div class="container">
-    <h2>Create Admin Account</h2>
+<div class="box">
+    <h2>Create Admin</h2>
 
     <?php if (!empty($message)) : ?>
-        <p class="message <?php echo $messageType; ?>">
+        <p class="<?php echo $messageType; ?>">
             <?php echo $message; ?>
         </p>
     <?php endif; ?>
 
     <form method="POST">
-        <label>Username</label>
-        <input type="text" name="username">
-
-        <label>Password</label>
-        <input type="password" name="password">
-
+        <input type="text" name="username" placeholder="Username">
+        <input type="password" name="password" placeholder="Password">
         <button type="submit">Create</button>
     </form>
-
-    <div class="back-link">
-        <a href="admin.php">Back to Admin Page</a>
-    </div>
 </div>
 
 </body>

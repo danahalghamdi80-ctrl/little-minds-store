@@ -9,6 +9,7 @@ $pageTitle = "Little Minds Store - Home";
 include 'includes/header.php';
 ?>
 
+
 <section class="main-section">
     <div class="hero">
         <h1>Learning Through Play Starts Here</h1>
@@ -27,20 +28,16 @@ include 'includes/header.php';
         <h2 class="section-title">About Our Store</h2>
         <div class="placeholder-box">
             <p>
-                Little Minds Store is designed to provide a clean and easy shopping experience for parents
-                looking for educational products for their children.
-            </p>
-        </div>
-    </section>
+        
+                Little Minds Store is a modern online platform dedicated to providing high-quality educational products for children.
 
-    <br>
+                Our goal is to support early learning and creativity through carefully selected toys, books, and interactive tools that combine fun with education.
 
-    <section>
-        <h2 class="section-title">Featured Products</h2>
-        <div class="placeholder-box">
-            <p>
-                Product cards will be displayed here later after connecting this page with the products table
-                and backend logic.
+                We aim to offer parents a simple, reliable, and enjoyable shopping experience, with a focus on quality, usability, and future expansion of features such as personalized recommendations and advanced shopping options.
+
+
+
+            
             </p>
         </div>
     </section>
@@ -51,21 +48,29 @@ include 'includes/header.php';
         <h2 class="section-title">Why Choose Us</h2>
         <div class="placeholder-box">
             <p>
-                We focus on simple design, child-friendly products, and a website structure that can be expanded
-                later with database, cart, and checkout functionality.
+               At Little Minds Store, we prioritize both quality and user experience. Our platform is designed to be simple, intuitive, and accessible for all users.
+
+               We carefully select products that promote learning, creativity, and child development, ensuring they meet high standards of safety and educational value.
+
+               Our system is built with scalability in mind, allowing future integration of advanced features such as secure checkout, personalized recommendations, and enhanced user accounts to improve the overall shopping experience.
             </p>
         </div>
     </section>
 
-    <div class="map-box" style="margin-top: 20px;">
-        <h2 class="section-title">Past Purchases</h2>
 
-        <div id="pastPurchasesContainer">
-            <p>No past purchases found yet.</p>
-        </div>
+   <div class="map-box" style="margin-top: 20px;">
+    <h2 class="section-title">Past Purchases</h2>
+
+    <div id="pastPurchasesContainer">
+        <p id="pastPurchasesText">
+            Returning customers will be able to view their past purchases here.
+        </p>
     </div>
 
+</div>
 </section>
+
+<?php include 'includes/footer.php'; ?>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 

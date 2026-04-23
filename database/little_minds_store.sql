@@ -55,21 +55,21 @@ CREATE TABLE `products` (
   `name` varchar(100) NOT NULL,
   `description` text DEFAULT NULL,
   `price` decimal(10,2) NOT NULL,
-  `stock` int(11) NOT NULL,
-  `image` varchar(255) NOT NULL
+  `image` varchar(255) NOT NULL,
+  `stock` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `name`, `description`, `price`, `stock`, `image`) VALUES
-(1, 'Alphabet Toy', 'Educational alphabet toy for kids', 40.00, 10, 'alphabet-toy.jpg'),
-(2, 'Building Blocks', 'Colorful blocks for creativity', 60.00, 8, 'blocks.jpg'),
-(3, 'Coloring Book', 'Fun coloring book for children', 25.00, 15, 'coloring-book.jpeg'),
-(4, 'Numbers Toy', 'Learn numbers with fun toys', 35.00, 12, 'numbers-toy.jpg'),
-(5, 'Puzzle', 'Brain puzzle game', 30.00, 9, 'puzzle.jpg'),
-(6, 'Story Book', 'Kids story book', 20.00, 20, 'storybook.jpg');
+INSERT INTO `products` (`id`, `name`, `description`, `price`, `image`, `stock`) VALUES
+(1, 'Alphabet Toy', 'Educational alphabet toy for kids', 40.00, 'alphabet-toy.jpg', 10),
+(2, 'Building Blocks', 'Colorful blocks for creativity', 60.00, 'blocks.jpg', 8),
+(3, 'Coloring Book', 'Fun coloring book for children', 25.00, 'coloring-book.jpeg', 15),
+(4, 'Numbers Toy', 'Learn numbers with fun toys', 35.00, 'numbers-toy.jpg', 12),
+(5, 'Puzzle', 'Brain puzzle game', 30.00, 'puzzle.jpg', 9),
+(6, 'Story Book', 'Kids story book', 20.00, 'storybook.jpg', 20);
 
 --
 -- Indexes for dumped tables
